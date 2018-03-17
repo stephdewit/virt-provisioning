@@ -1,0 +1,43 @@
+#!/bin/sh
+
+set -e
+
+basedir=/var/lib/libvirt
+iso=debian-9.4.0-amd64-netinst.iso
+
+ram=1024
+cpus=2
+disk=16
+graphics=none
+
+while getopts ":r:c:d:gtw" opt; do
+        case $opt in
+                r ) ram=$OPTARG;;
+                c ) cpus=$OPTARG;;
+                d ) disk=$OPTARG;;
+                g ) graphics=vnc,password=abc;;
+                t ) tty=console=ttyS0,115200;;
+                w ) blocking="--wait -1";;
+                : ) echo "-$OPTARG requires an argument" >&2; exit 1;;
+                \?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
+        esac
+done
+
+shift $(($OPTIND - 1))
+
+name=$1
+
+virt-install \
+	--name $name \
+	--os-type=linux \
+	--os-variant=debian9 \
+	--ram=$ram \
+	--vcpus=$cpus \
+	--disk path=$basedir/images/$name.img,size=$disk \
+	--location $basedir/isos/$iso \
+	--network bridge:br0 \
+	--graphics $graphics \
+	--noautoconsole \
+	$blocking \
+	--initrd-inject=preseed.cfg \
+	--extra-args="auto=true hostname=$name domain=$(hostname -d) $tty"
