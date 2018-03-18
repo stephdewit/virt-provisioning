@@ -8,14 +8,14 @@ iso=debian-9.4.0-amd64-netinst.iso
 ram=1024
 cpus=2
 disk=16
-graphics=none
+graphics=vnc,password=abc
 
-while getopts ":r:c:d:gtw" opt; do
+while getopts ":r:c:d:htw" opt; do
         case $opt in
                 r ) ram=$OPTARG;;
                 c ) cpus=$OPTARG;;
                 d ) disk=$OPTARG;;
-                g ) graphics=vnc,password=abc;;
+                h ) graphics=none;;
                 t ) tty=console=ttyS0,115200;;
                 w ) blocking="--wait -1";;
                 : ) echo "-$OPTARG requires an argument" >&2; exit 1;;
