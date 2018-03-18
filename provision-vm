@@ -27,6 +27,10 @@ shift $(($OPTIND - 1))
 
 name=$1
 
+tempdir=$(mktemp -d)
+trap "rm -rf $tempdir" EXIT
+sed "" preseed.cfg > $tempdir/preseed.cfg
+
 virt-install \
 	--name $name \
 	--os-type=linux \
@@ -39,5 +43,5 @@ virt-install \
 	--graphics $graphics \
 	--noautoconsole \
 	$blocking \
-	--initrd-inject=preseed.cfg \
+	--initrd-inject=$tempdir/preseed.cfg \
 	--extra-args="auto=true hostname=$name domain=$(hostname -d) $tty"
