@@ -7,13 +7,15 @@ iso=debian-9.4.0-amd64-netinst.iso
 
 ram=1024
 cpus=2
+storage=ssd
 disk=16
 graphics=vnc,password=abc
 
-while getopts ":r:c:d:htw" opt; do
+while getopts ":r:c:md:htw" opt; do
         case $opt in
                 r ) ram=$OPTARG;;
                 c ) cpus=$OPTARG;;
+                m ) storage=magnetic;;
                 d ) disk=$OPTARG;;
                 h ) graphics=none;;
                 t ) tty=console=ttyS0,115200;;
@@ -37,7 +39,7 @@ virt-install \
 	--os-variant=debian9 \
 	--ram=$ram \
 	--vcpus=$cpus \
-	--disk path=$basedir/images/$name.img,size=$disk \
+	--disk path=$basedir/images/$storage/$name.img,size=$disk \
 	--location $basedir/isos/$iso \
 	--network bridge:br0 \
 	--graphics $graphics \
