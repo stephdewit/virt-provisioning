@@ -3,7 +3,7 @@
 set -e
 
 basedir=/var/lib/libvirt
-iso=debian-9.4.0-amd64-netinst.iso
+iso=debian-9.5.0-amd64-netinst.iso
 
 ram=1024
 cpus=2
