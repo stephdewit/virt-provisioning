@@ -6,11 +6,11 @@ It's a wrapper script around `virt-install`.
 
 # Usage
 
-`provision-vm test-debian`
+`provision-vm storage-03`
 
 Install a new instance of a Debian server.
 
-`provision-vm -o centos -r 4096 test-centos`
+`provision-vm -o centos -r 4096 app-002`
 
 Install a new instance of a CentOS server with 4 GiB of memory.
 
