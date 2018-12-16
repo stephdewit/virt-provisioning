@@ -9,9 +9,10 @@ cpus=2
 storage=ssd
 disk=16
 graphics=vnc,password=abc
+blocking="--wait -1"
 os=debian
 
-while getopts ":r:c:md:htwo:" opt; do
+while getopts ":r:c:md:htWo:" opt; do
         case $opt in
                 r ) ram=$OPTARG;;
                 c ) cpus=$OPTARG;;
@@ -19,7 +20,7 @@ while getopts ":r:c:md:htwo:" opt; do
                 d ) disk=$OPTARG;;
                 h ) graphics=none;;
                 t ) tty=console=ttyS0,115200;;
-                w ) blocking="--wait -1";;
+                W ) blocking="";;
                 o ) os=$OPTARG;;
                 : ) echo "-$OPTARG requires an argument" >&2; exit 1;;
                 \?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
