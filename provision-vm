@@ -3,15 +3,15 @@
 set -e
 
 basedir=/var/lib/libvirt
-iso=debian-9.5.0-amd64-netinst.iso
 
 ram=1024
 cpus=2
 storage=ssd
 disk=16
 graphics=vnc,password=abc
+os=debian
 
-while getopts ":r:c:md:htw" opt; do
+while getopts ":r:c:md:htwo:" opt; do
         case $opt in
                 r ) ram=$OPTARG;;
                 c ) cpus=$OPTARG;;
@@ -20,6 +20,7 @@ while getopts ":r:c:md:htw" opt; do
                 h ) graphics=none;;
                 t ) tty=console=ttyS0,115200;;
                 w ) blocking="--wait -1";;
+                o ) os=$OPTARG;;
                 : ) echo "-$OPTARG requires an argument" >&2; exit 1;;
                 \?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
         esac
@@ -29,14 +30,29 @@ shift $(($OPTIND - 1))
 
 name=$1
 
+if [ "$os" == "debian" ]; then
+	iso=debian-9.5.0-amd64-netinst.iso
+	osvar=debian9
+	cfg=preseed.cfg
+	cfgarg=auto=true
+elif [ "$os" == "centos" ]; then
+	iso=CentOS-7-x86_64-Minimal-1810.iso
+	osvar=centos7.0
+	cfg=ks.cfg
+	cfgarg=ks=file:/ks.cfg
+else
+	echo "Invalid OS: '$os'. Valid options: debian, centos"
+	exit 1
+fi
+
 tempdir=$(mktemp -d)
 trap "rm -rf $tempdir" EXIT
-sed "" preseed.cfg > $tempdir/preseed.cfg
+sed "" $cfg > $tempdir/$cfg
 
 virt-install \
 	--name $name \
 	--os-type=linux \
-	--os-variant=debian9 \
+	--os-variant=$osvar \
 	--ram=$ram \
 	--vcpus=$cpus \
 	--disk path=$basedir/images/$storage/$name.img,size=$disk \
@@ -45,5 +61,5 @@ virt-install \
 	--graphics $graphics \
 	--noautoconsole \
 	$blocking \
-	--initrd-inject=$tempdir/preseed.cfg \
-	--extra-args="auto=true hostname=$name domain=$(hostname -d) $tty"
+	--initrd-inject=$tempdir/$cfg \
+	--extra-args="$cfgarg hostname=$name domain=$(hostname -d) $tty"
