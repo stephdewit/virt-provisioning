@@ -14,6 +14,10 @@ Install a new instance of a Debian server.
 
 Install a new instance of a CentOS server with 4 GiB of memory.
 
+# Dependencies
+
+- [j2cli](http://pypi.python.org/pypi/j2cli).
+
 # Caveats
 
 There is a lot of hardcoded stuff related to my server configuration and my personal preferences.
