@@ -48,7 +48,7 @@ fi
 
 tempdir=$(mktemp -d)
 trap "rm -rf $tempdir" EXIT
-j2 $cfg.j2 > $tempdir/$cfg
+j2 cfg/$cfg.j2 > $tempdir/$cfg
 
 virt-install \
 	--name $name \
