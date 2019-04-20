@@ -16,7 +16,7 @@ d-i passwd/username string {{ USER }}
 d-i passwd/user-password-crypted password !
 
 d-i clock-setup/utc boolean true
-d-i time/zone string Europe/Brussels
+d-i time/zone string {{ TIMEZONE }}
 d-i clock-setup/ntp boolean true
 
 d-i partman-auto/method string lvm
