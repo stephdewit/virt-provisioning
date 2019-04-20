@@ -11,7 +11,7 @@ autopart --type=lvm
 bootloader --location=mbr
 
 rootpw --iscrypted !!
-user --name=stephdewit --groups=wheel
+user --name={{ USER }} --groups=wheel
 
 network --bootproto=dhcp
 
@@ -26,11 +26,11 @@ qemu-guest-agent
 %end
 
 %post
-/bin/mkdir /home/stephdewit/.ssh
-/bin/chmod 0700 /home/stephdewit/.ssh
-/bin/chown stephdewit:stephdewit /home/stephdewit/.ssh
-/bin/curl -o /home/stephdewit/.ssh/authorized_keys https://www.stephanedewit.be/ssh/test.keys
-/bin/chmod 0600 /home/stephdewit/.ssh/authorized_keys
-/bin/chown stephdewit:stephdewit /home/stephdewit/.ssh/authorized_keys
+/bin/mkdir /home/{{ USER }}/.ssh
+/bin/chmod 0700 /home/{{ USER }}/.ssh
+/bin/chown {{ USER }}:{{ USER }} /home/{{ USER }}/.ssh
+/bin/curl -o /home/{{ USER }}/.ssh/authorized_keys https://www.stephanedewit.be/ssh/test.keys
+/bin/chmod 0600 /home/{{ USER }}/.ssh/authorized_keys
+/bin/chown {{ USER }}:{{ USER }} /home/{{ USER }}/.ssh/authorized_keys
 /bin/sed -i 's/%wheel\tALL=(ALL)\tALL/%wheel\tALL=(ALL)\tNOPASSWD: ALL/' /etc/sudoers
 %end
