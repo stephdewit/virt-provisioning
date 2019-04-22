@@ -29,7 +29,7 @@ qemu-guest-agent
 /bin/mkdir /home/{{ env.USER }}/.ssh
 /bin/chmod 0700 /home/{{ env.USER }}/.ssh
 /bin/chown {{ env.USER }}:{{ env.USER }} /home/{{ env.USER }}/.ssh
-/bin/curl -o /home/{{ env.USER }}/.ssh/authorized_keys https://www.stephanedewit.be/ssh/test.keys
+/bin/curl -o /home/{{ env.USER }}/.ssh/authorized_keys {{ cfg.ssh.keysUrl }}
 /bin/chmod 0600 /home/{{ env.USER }}/.ssh/authorized_keys
 /bin/chown {{ env.USER }}:{{ env.USER }} /home/{{ env.USER }}/.ssh/authorized_keys
 /bin/sed -i 's/%wheel\tALL=(ALL)\tALL/%wheel\tALL=(ALL)\tNOPASSWD: ALL/' /etc/sudoers

@@ -1,1 +1,7 @@
-{}
+{
+	"cfg": {
+		"ssh": {
+			"keysUrl": "https://example.com/ssh/keys.pub"
+		}
+	}
+}

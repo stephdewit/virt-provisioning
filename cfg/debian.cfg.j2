@@ -43,7 +43,7 @@ d-i preseed/late_command string \
 in-target /bin/mkdir /home/{{ env.USER }}/.ssh ;\
 in-target /bin/chmod 0700 /home/{{ env.USER }}/.ssh ;\
 in-target /bin/chown {{ env.USER }}:{{ env.USER }} /home/{{ env.USER }}/.ssh ;\
-in-target /usr/bin/wget https://www.stephanedewit.be/ssh/test.keys -O /home/{{ env.USER }}/.ssh/authorized_keys ;\
+in-target /usr/bin/wget {{ cfg.ssh.keysUrl }} -O /home/{{ env.USER }}/.ssh/authorized_keys ;\
 in-target /bin/chmod 0600 /home/{{ env.USER }}/.ssh/authorized_keys ;\
 in-target /bin/chown {{ env.USER }}:{{ env.USER }} /home/{{ env.USER }}/.ssh/authorized_keys ;\
 in-target /bin/sed -i 's/%sudo\tALL=(ALL:ALL) ALL/%sudo\tALL=(ALL:ALL) NOPASSWD:ALL/' /etc/sudoers ;\
