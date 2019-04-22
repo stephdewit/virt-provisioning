@@ -11,12 +11,12 @@ d-i mirror/http/directory string /debian
 d-i mirror/http/proxy string
 
 d-i passwd/root-login boolean false
-d-i passwd/user-fullname string {{ FULLNAME }}
-d-i passwd/username string {{ USER }}
+d-i passwd/user-fullname string {{ env.FULLNAME }}
+d-i passwd/username string {{ env.USER }}
 d-i passwd/user-password-crypted password !
 
 d-i clock-setup/utc boolean true
-d-i time/zone string {{ TIMEZONE }}
+d-i time/zone string {{ env.TIMEZONE }}
 d-i clock-setup/ntp boolean true
 
 d-i partman-auto/method string lvm
@@ -40,13 +40,13 @@ d-i grub-installer/bootdev string /dev/vda
 d-i grub-installer/only_debian boolean true
 
 d-i preseed/late_command string \
-in-target /bin/mkdir /home/{{ USER }}/.ssh ;\
-in-target /bin/chmod 0700 /home/{{ USER }}/.ssh ;\
-in-target /bin/chown {{ USER }}:{{ USER }} /home/{{ USER }}/.ssh ;\
-in-target /usr/bin/wget https://www.stephanedewit.be/ssh/test.keys -O /home/{{ USER }}/.ssh/authorized_keys ;\
-in-target /bin/chmod 0600 /home/{{ USER }}/.ssh/authorized_keys ;\
-in-target /bin/chown {{ USER }}:{{ USER }} /home/{{ USER }}/.ssh/authorized_keys ;\
+in-target /bin/mkdir /home/{{ env.USER }}/.ssh ;\
+in-target /bin/chmod 0700 /home/{{ env.USER }}/.ssh ;\
+in-target /bin/chown {{ env.USER }}:{{ env.USER }} /home/{{ env.USER }}/.ssh ;\
+in-target /usr/bin/wget https://www.stephanedewit.be/ssh/test.keys -O /home/{{ env.USER }}/.ssh/authorized_keys ;\
+in-target /bin/chmod 0600 /home/{{ env.USER }}/.ssh/authorized_keys ;\
+in-target /bin/chown {{ env.USER }}:{{ env.USER }} /home/{{ env.USER }}/.ssh/authorized_keys ;\
 in-target /bin/sed -i 's/%sudo\tALL=(ALL:ALL) ALL/%sudo\tALL=(ALL:ALL) NOPASSWD:ALL/' /etc/sudoers ;\
-in-target /usr/sbin/usermod -a -G sudo {{ USER }}
+in-target /usr/sbin/usermod -a -G sudo {{ env.USER }}
 
 d-i finish-install/reboot_in_progress note

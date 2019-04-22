@@ -46,12 +46,19 @@ else
 	exit 1
 fi
 
+CONFIG=$HOME/.virt-provisioning.json
+if [ ! -f $CONFIG ]; then
+	cp config.template.json $CONFIG
+	echo "Please fill in configuration file: $CONFIG" >&2
+	exit 1
+fi
+
 tempdir=$(mktemp -d)
 trap "rm -rf $tempdir" EXIT
 
 export TIMEZONE=$(</etc/timezone)
 export FULLNAME=$(getent passwd $USER | cut -d : -f 5 | cut -d , -f 1)
-j2 cfg/$os.cfg.j2 > $tempdir/$cfg
+j2 --import-env=env cfg/$os.cfg.j2 $CONFIG > $tempdir/$cfg
 
 virt-install \
 	--name $name \
