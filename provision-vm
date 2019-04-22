@@ -42,7 +42,7 @@ elif [ "$os" == "centos" ]; then
 	cfg=ks.cfg
 	cfgarg=ks=file:/ks.cfg
 else
-	echo "Invalid OS: '$os'. Valid options: debian, centos"
+	echo "Invalid OS: '$os'. Valid options: debian, centos" >&2
 	exit 1
 fi
 
