@@ -1,12 +1,12 @@
-d-i debian-installer/language string en
-d-i debian-installer/country string BE
-d-i debian-installer/locale string en_US.UTF-8
-d-i keyboard-configuration/xkb-keymap select us
+d-i debian-installer/language string {{ cfg.region.language }}
+d-i debian-installer/country string {{ cfg.region.country | upper }}
+d-i debian-installer/locale string {{ cfg.region.locale }}
+d-i keyboard-configuration/xkb-keymap select {{ cfg.region.keymap }}
 
 d-i netcfg/choose_interface select auto
 
 d-i mirror/country string manual
-d-i mirror/http/hostname string ftp.be.debian.org
+d-i mirror/http/hostname string ftp.{{ cfg.region.country }}.debian.org
 d-i mirror/http/directory string /debian
 d-i mirror/http/proxy string
 

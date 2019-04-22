@@ -1,5 +1,11 @@
 {
 	"cfg": {
+		"region": {
+			"language": "en",
+			"country": "us",
+			"locale": "en_US.UTF-8",
+			"keymap": "us"
+		},
 		"ssh": {
 			"keysUrl": "https://example.com/ssh/keys.pub"
 		}
