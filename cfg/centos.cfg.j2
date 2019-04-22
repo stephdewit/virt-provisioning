@@ -11,7 +11,7 @@ autopart --type=lvm
 bootloader --location=mbr
 
 rootpw --iscrypted !!
-user --name={{ USER }} --groups=wheel
+user --name={{ USER }} --groups=wheel --gecos="{{ FULLNAME }}"
 
 network --bootproto=dhcp
 
