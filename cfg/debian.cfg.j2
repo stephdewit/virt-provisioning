@@ -11,7 +11,7 @@ d-i mirror/http/directory string /debian
 d-i mirror/http/proxy string
 
 d-i passwd/root-login boolean false
-d-i passwd/user-fullname string Stéphane de Wit
+d-i passwd/user-fullname string {{ FULLNAME }}
 d-i passwd/username string {{ USER }}
 d-i passwd/user-password-crypted password !
 

@@ -50,6 +50,7 @@ tempdir=$(mktemp -d)
 trap "rm -rf $tempdir" EXIT
 
 export TIMEZONE=$(</etc/timezone)
+export FULLNAME=$(getent passwd $USER | cut -d : -f 5 | cut -d , -f 1)
 j2 cfg/$os.cfg.j2 > $tempdir/$cfg
 
 virt-install \
