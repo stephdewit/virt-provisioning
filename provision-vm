@@ -2,7 +2,7 @@
 
 set -e
 
-basedir=/var/lib/libvirt
+base_dir=/var/lib/libvirt
 
 ram=1024
 cpus=2
@@ -33,14 +33,14 @@ name=$1
 
 if [ "$os" == "debian" ]; then
 	iso=debian-9.8.0-amd64-netinst.iso
-	osvar=debian9
+	os_var=debian9
 	cfg=preseed.cfg
-	cfgarg=auto=true
+	cfg_arg=auto=true
 elif [ "$os" == "centos" ]; then
 	iso=CentOS-7-x86_64-Minimal-1810.iso
-	osvar=centos7.0
+	os_var=centos7.0
 	cfg=ks.cfg
-	cfgarg=ks=file:/ks.cfg
+	cfg_arg=ks=file:/ks.cfg
 else
 	echo "Invalid OS: '$os'. Valid options: debian, centos" >&2
 	exit 1
@@ -53,24 +53,24 @@ if [ ! -f $config ]; then
 	exit 1
 fi
 
-tempdir=$(mktemp -d)
-trap "rm -rf $tempdir" EXIT
+temp_dir=$(mktemp -d)
+trap "rm -rf $temp_dir" EXIT
 
 export TIMEZONE=$(</etc/timezone)
 export FULLNAME=$(getent passwd $USER | cut -d : -f 5 | cut -d , -f 1)
-j2 --import-env=env cfg/$os.cfg.j2 $config > $tempdir/$cfg
+j2 --import-env=env cfg/$os.cfg.j2 $config > $temp_dir/$cfg
 
 virt-install \
 	--name $name \
 	--os-type=linux \
-	--os-variant=$osvar \
+	--os-variant=$os_var \
 	--ram=$ram \
 	--vcpus=$cpus \
-	--disk path=$basedir/images/$storage/$name.img,size=$disk \
-	--location $basedir/isos/$iso \
+	--disk path=$base_dir/images/$storage/$name.img,size=$disk \
+	--location $base_dir/isos/$iso \
 	--network bridge:br0 \
 	--graphics $graphics \
 	--noautoconsole \
 	$blocking \
-	--initrd-inject=$tempdir/$cfg \
-	--extra-args="$cfgarg hostname=$name domain=$(hostname -d) $tty"
+	--initrd-inject=$temp_dir/$cfg \
+	--extra-args="$cfg_arg hostname=$name domain=$(hostname -d) $tty"
