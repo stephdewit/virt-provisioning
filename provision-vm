@@ -29,6 +29,11 @@ shift $(($OPTIND - 1))
 
 name=$1
 
+if [ "$name" == "" ]; then
+	echo "Name required" >&2
+	exit 1
+fi
+
 if [ "$os" == "debian" ]; then
 	iso=debian-9.8.0-amd64-netinst.iso
 	os_var=debian9
