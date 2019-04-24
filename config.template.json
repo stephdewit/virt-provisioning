@@ -9,5 +9,8 @@
 		"ssh": {
 			"keysUrl": "https://example.com/ssh/keys.pub"
 		}
+	},
+	"host": {
+		"baseDir": "/var/lib/libvirt"
 	}
 }

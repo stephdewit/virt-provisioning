@@ -2,8 +2,6 @@
 
 set -e
 
-base_dir=/var/lib/libvirt
-
 ram=1024
 cpus=2
 storage=ssd
@@ -59,6 +57,8 @@ trap "rm -rf $temp_dir" EXIT
 export TIMEZONE=$(</etc/timezone)
 export FULLNAME=$(getent passwd $USER | cut -d : -f 5 | cut -d , -f 1)
 j2 --import-env=env cfg/$os.cfg.j2 $config > $temp_dir/$cfg
+
+base_dir=$(<$config jq --raw-output .host.baseDir)
 
 virt-install \
 	--name $name \
