@@ -35,7 +35,7 @@ if [ "$name" == "" ]; then
 fi
 
 if [ "$os" == "debian" ]; then
-	iso=debian-9.8.0-amd64-netinst.iso
+	iso=debian-10.0.0-amd64-netinst.iso
 	os_var=debian9
 	cfg=preseed.cfg
 	cfg_arg=auto=true
