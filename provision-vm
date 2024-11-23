@@ -57,7 +57,7 @@ if [ ! -f "$config" ]; then
 fi
 
 temp_dir=$(mktemp -d)
-trap "rm -rf $temp_dir" EXIT
+trap 'rm -rf $temp_dir' EXIT
 
 export TIMEZONE=$(</etc/timezone)
 export FULLNAME=$(getent passwd "$USER" | cut -d : -f 5 | cut -d , -f 1)
