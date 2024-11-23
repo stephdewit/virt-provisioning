@@ -7,7 +7,7 @@ cpus=2
 storage=ssd
 disk=16
 graphics=vnc,password=abc
-blocking="--wait -1"
+blocking=--wait=-1
 os=debian
 
 while getopts ":r:c:md:htWo:" opt; do
@@ -50,8 +50,8 @@ else
 fi
 
 config=$HOME/.virt-provisioning.json
-if [ ! -f $config ]; then
-	cp config.template.json $config
+if [ ! -f "$config" ]; then
+	cp config.template.json "$config"
 	echo "Please fill in configuration file: $config" >&2
 	exit 1
 fi
@@ -60,22 +60,22 @@ temp_dir=$(mktemp -d)
 trap "rm -rf $temp_dir" EXIT
 
 export TIMEZONE=$(</etc/timezone)
-export FULLNAME=$(getent passwd $USER | cut -d : -f 5 | cut -d , -f 1)
-j2 --import-env=env cfg/$os.cfg.j2 $config > $temp_dir/$cfg
+export FULLNAME=$(getent passwd "$USER" | cut -d : -f 5 | cut -d , -f 1)
+j2 --import-env=env "cfg/$os.cfg.j2" "$config" > "$temp_dir/$cfg"
 
-base_dir=$(<$config jq --raw-output .host.baseDir)
+base_dir=$(<"$config" jq --raw-output .host.baseDir)
 
 virt-install \
-	--name $name \
+	--name "$name" \
 	--os-type=linux \
 	--os-variant=$os_var \
-	--ram=$ram \
-	--vcpus=$cpus \
-	--disk path=$base_dir/images/$storage/$name.img,size=$disk \
-	--location $base_dir/isos/$iso \
+	"--ram=$ram" \
+	"--vcpus=$cpus" \
+	--disk path="$base_dir/images/$storage/$name.img,size=$disk" \
+	--location "$base_dir/isos/$iso" \
 	--network bridge:br0 \
 	--graphics $graphics \
 	--noautoconsole \
-	$blocking \
-	--initrd-inject=$temp_dir/$cfg \
+	"$blocking" \
+	"--initrd-inject=$temp_dir/$cfg" \
 	--extra-args="$cfg_arg hostname=$name domain=$(hostname -d) $tty"
