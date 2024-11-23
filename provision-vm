@@ -63,7 +63,11 @@ TIMEZONE=$(</etc/timezone)
 FULLNAME=$(getent passwd "$USER" | cut -d : -f 5 | cut -d , -f 1)
 export TIMEZONE FULLNAME
 
-j2 --import-env=env "cfg/$os.cfg.j2" "$config" > "$temp_dir/$cfg"
+j2 \
+	--import-env=env \
+	"cfg/$os.cfg.j2" \
+	"$config" \
+	> "$temp_dir/$cfg"
 
 base_dir=$(<"$config" jq --raw-output .host.baseDir)
 
