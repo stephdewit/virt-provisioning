@@ -43,7 +43,7 @@ d-i grub-installer/only_debian boolean true
 d-i preseed/late_command string \
 in-target /usr/bin/wget {{ cfg.ssh.userCaUrl }} -O /etc/ssh/user-ca.pub ;\
 echo 'TrustedUserCAKeys /etc/ssh/user-ca.pub' > /target/etc/ssh/sshd_config.d/user-ca.conf ;\
-in-target /bin/sed -i 's/%sudo\tALL=(ALL:ALL) ALL/%sudo\tALL=(ALL:ALL) NOPASSWD:ALL/' /etc/sudoers ;\
+echo -e '%sudo\tALL=(ALL:ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/wheel-no-passwd
 in-target /usr/sbin/usermod -a -G sudo {{ user }}
 
 d-i finish-install/reboot_in_progress note
