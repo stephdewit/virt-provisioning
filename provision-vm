@@ -59,7 +59,7 @@ fi
 temp_dir=$(mktemp -d)
 trap 'rm -rf $temp_dir' EXIT
 
-TIMEZONE=$(</etc/timezone)
+TIMEZONE=$(realpath --relative-to /usr/share/zoneinfo /etc/localtime)
 FULLNAME=$(getent passwd "$USER" | cut -d : -f 5 | cut -d , -f 1)
 export TIMEZONE FULLNAME
 
