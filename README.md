@@ -17,7 +17,7 @@ Install a new instance of a CentOS server with 4 GiB of memory.
 # Dependencies
 
 - [virt-install](https://virt-manager.org)
-- [j2cli](https://pypi.python.org/pypi/j2cli)
+- [jinja2-cli](https://github.com/mattrobenolt/jinja2-cli)
 - [jq](https://stedolan.github.io/jq)
 
 # Caveats

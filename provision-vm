@@ -59,12 +59,10 @@ fi
 temp_dir=$(mktemp -d)
 trap 'rm -rf $temp_dir' EXIT
 
-TIMEZONE=$(realpath --relative-to /usr/share/zoneinfo /etc/localtime)
-FULLNAME=$(getent passwd "$USER" | cut -d : -f 5 | cut -d , -f 1)
-export TIMEZONE FULLNAME
-
-j2 \
-	--import-env=env \
+jinja2 \
+	-D "user=$USER" \
+	-D "timezone=$(realpath --relative-to /usr/share/zoneinfo /etc/localtime)" \
+	-D "fullname=$(getent passwd "$USER" | cut -d : -f 5 | cut -d , -f 1)" \
 	"cfg/$os.cfg.j2" \
 	"$config" \
 	> "$temp_dir/$cfg"

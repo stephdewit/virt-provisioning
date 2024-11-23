@@ -1,6 +1,6 @@
 keyboard {{ cfg.region.keymap }}
 lang {{ cfg.region.locale }}
-timezone --utc {{ env.TIMEZONE }}
+timezone --utc {{ timezone }}
 text
 install
 reboot
@@ -11,7 +11,7 @@ autopart --type=lvm
 bootloader --location=mbr
 
 rootpw --iscrypted !!
-user --name={{ env.USER }} --groups=wheel --gecos="{{ env.FULLNAME }}"
+user --name={{ user }} --groups=wheel --gecos="{{ fullname }}"
 
 network --bootproto=dhcp
 
@@ -26,11 +26,11 @@ qemu-guest-agent
 %end
 
 %post
-/bin/mkdir /home/{{ env.USER }}/.ssh
-/bin/chmod 0700 /home/{{ env.USER }}/.ssh
-/bin/chown {{ env.USER }}:{{ env.USER }} /home/{{ env.USER }}/.ssh
-/bin/curl -o /home/{{ env.USER }}/.ssh/authorized_keys {{ cfg.ssh.keysUrl }}
-/bin/chmod 0600 /home/{{ env.USER }}/.ssh/authorized_keys
-/bin/chown {{ env.USER }}:{{ env.USER }} /home/{{ env.USER }}/.ssh/authorized_keys
+/bin/mkdir /home/{{ user }}/.ssh
+/bin/chmod 0700 /home/{{ user }}/.ssh
+/bin/chown {{ user }}:{{ user }} /home/{{ user }}/.ssh
+/bin/curl -o /home/{{ user }}/.ssh/authorized_keys {{ cfg.ssh.keysUrl }}
+/bin/chmod 0600 /home/{{ user }}/.ssh/authorized_keys
+/bin/chown {{ user }}:{{ user }} /home/{{ user }}/.ssh/authorized_keys
 /bin/sed -i 's/%wheel\tALL=(ALL)\tALL/%wheel\tALL=(ALL)\tNOPASSWD: ALL/' /etc/sudoers
 %end
