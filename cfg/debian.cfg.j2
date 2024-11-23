@@ -41,12 +41,8 @@ d-i grub-installer/bootdev string /dev/vda
 d-i grub-installer/only_debian boolean true
 
 d-i preseed/late_command string \
-in-target /bin/mkdir /home/{{ user }}/.ssh ;\
-in-target /bin/chmod 0700 /home/{{ user }}/.ssh ;\
-in-target /bin/chown {{ user }}:{{ user }} /home/{{ user }}/.ssh ;\
-in-target /usr/bin/wget {{ cfg.ssh.keysUrl }} -O /home/{{ user }}/.ssh/authorized_keys ;\
-in-target /bin/chmod 0600 /home/{{ user }}/.ssh/authorized_keys ;\
-in-target /bin/chown {{ user }}:{{ user }} /home/{{ user }}/.ssh/authorized_keys ;\
+in-target /usr/bin/wget {{ cfg.ssh.userCaUrl }} -O /etc/ssh/user-ca.pub ;\
+echo 'TrustedUserCAKeys /etc/ssh/user-ca.pub' > /target/etc/ssh/sshd_config.d/user-ca.conf ;\
 in-target /bin/sed -i 's/%sudo\tALL=(ALL:ALL) ALL/%sudo\tALL=(ALL:ALL) NOPASSWD:ALL/' /etc/sudoers ;\
 in-target /usr/sbin/usermod -a -G sudo {{ user }}
 
