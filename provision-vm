@@ -71,7 +71,6 @@ base_dir=$(<"$config" jq --raw-output .host.baseDir)
 
 virt-install \
 	--name "$name" \
-	--os-type=linux \
 	--os-variant=$os_var \
 	"--ram=$ram" \
 	"--vcpus=$cpus" \
