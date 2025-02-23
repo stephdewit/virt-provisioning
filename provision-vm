@@ -10,7 +10,7 @@ graphics=vnc,password=abc
 blocking=--wait=-1
 os=debian
 
-while getopts ":r:c:smd:htWo:" opt; do
+while getopts ":r:c:smd:htWo:i" opt; do
         case $opt in
                 r ) ram=$OPTARG;;
                 c ) cpus=$OPTARG;;
@@ -21,6 +21,7 @@ while getopts ":r:c:smd:htWo:" opt; do
                 t ) tty=console=ttyS0,115200;;
                 W ) blocking="";;
                 o ) os=$OPTARG;;
+                i ) ip=1;;
                 : ) echo "-$OPTARG requires an argument" >&2; exit 1;;
                 \?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
         esac
@@ -33,6 +34,16 @@ name=$1
 if [ "$name" == "" ]; then
 	echo "Name required" >&2
 	exit 1
+fi
+
+if [ -n "$ip" ]; then
+	virsh domifaddr \
+		--source agent \
+		--domain "$name" \
+		--interface enp1s0 \
+	| awk '/ipv4/ { split($4,a,"/"); print a[1] }'
+
+	exit 0
 fi
 
 if [ "$os" == "debian" ]; then
