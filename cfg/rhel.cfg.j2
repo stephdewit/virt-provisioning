@@ -37,5 +37,5 @@ services --enabled=rhcd
 /bin/curl -o /home/{{ user }}/.ssh/authorized_keys {{ cfg.ssh.keysUrl }}
 /bin/chmod 0600 /home/{{ user }}/.ssh/authorized_keys
 /bin/chown {{ user }}:{{ user }} /home/{{ user }}/.ssh/authorized_keys
-/bin/sed -i 's/%wheel\tALL=(ALL)\tALL/%wheel\tALL=(ALL)\tNOPASSWD: ALL/' /etc/sudoers
+echo -e '%wheel\tALL=(ALL:ALL) NOPASSWD:ALL' > /etc/sudoers.d/wheel-no-passwd
 %end
