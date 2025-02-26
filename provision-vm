@@ -51,13 +51,13 @@ if [ "$os" == "debian" ]; then
 	os_var=debian12
 	cfg=preseed.cfg
 	cfg_arg=auto=true
-elif [ "$os" == "centos" ]; then
-	iso=CentOS-7-x86_64-Minimal-1810.iso
-	os_var=centos7.0
+elif [ "$os" == "rhel" ]; then
+	iso=rhel-9.5-x86_64-boot.iso
+	os_var=rhel9.5
 	cfg=ks.cfg
-	cfg_arg=ks=file:/ks.cfg
+	cfg_arg=inst.ks=file:/ks.cfg
 else
-	echo "Invalid OS: '$os'. Valid options: debian, centos" >&2
+	echo "Invalid OS: '$os'. Valid options: debian, rhel" >&2
 	exit 1
 fi
 

@@ -9,6 +9,10 @@
 		"ssh": {
 			"keysUrl": "https://example.com/ssh/keys.pub",
 			"userCaUrl": "https://example.com/ssh/user-ca.pub"
+		},
+		"rhel": {
+			"organization": "999999",
+			"activationKey": "foo"
 		}
 	},
 	"host": {

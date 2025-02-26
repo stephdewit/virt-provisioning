@@ -2,8 +2,9 @@ keyboard {{ cfg.region.keymap }}
 lang {{ cfg.region.locale }}
 timezone --utc {{ timezone }}
 text
-install
 reboot
+
+rhsm --organization={{ cfg.rhel.organization }} --activation-key={{ cfg.rhel.activationKey }} --connect-to-insights
 
 zerombr
 clearpart --all --initlabel
@@ -14,16 +15,20 @@ rootpw --iscrypted !!
 user --name={{ user }} --groups=wheel --gecos="{{ fullname }}"
 
 network --bootproto=dhcp
+firewall --enabled --ssh
+
+firstboot --disable
+selinux --disabled
 
 skipx
-repo --name=updates
 
 %packages
-@core
+@^minimal-environment
 qemu-guest-agent
--NetworkManager*
 -iwl*firmware
 %end
+
+services --enabled=rhcd
 
 %post
 /bin/mkdir /home/{{ user }}/.ssh

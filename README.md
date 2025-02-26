@@ -10,9 +10,9 @@ It's a wrapper script around `virt-install`.
 
 Install a new instance of a Debian server.
 
-`provision-vm -o centos -r 4096 app-002`
+`provision-vm -o rhel -r 4096 app-002`
 
-Install a new instance of a CentOS server with 4 GiB of memory.
+Install a new instance of an RHEL server with 4 GiB of memory.
 
 # Dependencies
 
