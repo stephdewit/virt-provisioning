@@ -31,11 +31,7 @@ qemu-guest-agent
 services --enabled=rhcd
 
 %post
-/bin/mkdir /home/{{ user }}/.ssh
-/bin/chmod 0700 /home/{{ user }}/.ssh
-/bin/chown {{ user }}:{{ user }} /home/{{ user }}/.ssh
-/bin/curl -o /home/{{ user }}/.ssh/authorized_keys {{ cfg.ssh.keysUrl }}
-/bin/chmod 0600 /home/{{ user }}/.ssh/authorized_keys
-/bin/chown {{ user }}:{{ user }} /home/{{ user }}/.ssh/authorized_keys
+/bin/curl -o /etc/ssh/user-ca.pub {{ cfg.ssh.userCaUrl }}
+echo 'TrustedUserCAKeys /etc/ssh/user-ca.pub' > /etc/ssh/sshd_config.d/user-ca.conf
 echo -e '%wheel\tALL=(ALL:ALL) NOPASSWD:ALL' > /etc/sudoers.d/wheel-no-passwd
 %end
