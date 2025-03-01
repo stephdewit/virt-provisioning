@@ -46,7 +46,7 @@ if [ -n "$ip" ]; then
 	| grep -Ev '^Name|^-*$' \
 	| sed -E 's/^([^\t]+)\t([^\t]+)\t([^\t]+)$/\1\tnone\t\2\t\3/' \
 	| awk -F '\t' '
-		$1 !~ /^(lo|docker.+|veth.+)$/ && $3 == "ipv4" {
+		$1 !~ /^(lo|Loopback.+|docker.+|veth.+)$/ && $3 == "ipv4" {
 			split($4,a,"/")
 			print a[1]
 		}
