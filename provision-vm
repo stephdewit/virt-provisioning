@@ -11,20 +11,20 @@ blocking=--wait=-1
 os=debian
 
 while getopts ":r:c:smd:htWo:i" opt; do
-        case $opt in
-                r ) ram=$OPTARG;;
-                c ) cpus=$OPTARG;;
-                s ) storage=ssd/;;
-                m ) storage=magnetic/;;
-                d ) disk=$OPTARG;;
-                h ) graphics=none;;
-                t ) tty=console=ttyS0,115200;;
-                W ) blocking="";;
-                o ) os=$OPTARG;;
-                i ) ip=1;;
-                : ) echo "-$OPTARG requires an argument" >&2; exit 1;;
-                \?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
-        esac
+	case $opt in
+		r ) ram=$OPTARG;;
+		c ) cpus=$OPTARG;;
+		s ) storage=ssd/;;
+		m ) storage=magnetic/;;
+		d ) disk=$OPTARG;;
+		h ) graphics=none;;
+		t ) tty=console=ttyS0,115200;;
+		W ) blocking="";;
+		o ) os=$OPTARG;;
+		i ) ip=1;;
+		: ) echo "-$OPTARG requires an argument" >&2; exit 1;;
+		\?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
+	esac
 done
 
 shift $((OPTIND - 1))
