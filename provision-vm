@@ -40,7 +40,10 @@ if [ -n "$ip" ]; then
 	virsh domifaddr \
 		--source agent \
 		--domain "$name" \
-	| awk '
+		--full \
+	| sed -E -e 's/^\s+//' -e 's/\s{2,}/\t/g' \
+	| grep -Ev '^Name|^-*$' \
+	| awk -F '\t' '
 		$1 !~ /lo|docker|veth/ && $3 == "ipv4" {
 			split($4,a,"/")
 			print a[1]
