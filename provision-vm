@@ -41,6 +41,7 @@ if [ -n "$ip" ]; then
 		--source agent \
 		--domain "$name" \
 		--full \
+	| sed -E 's/([0-9a-f]{2}(:[0-9a-f]{2}){5})/ \1/' \
 	| sed -E -e 's/^\s+//' -e 's/\s{2,}/\t/g' \
 	| grep -Ev '^Name|^-*$' \
 	| awk -F '\t' '
