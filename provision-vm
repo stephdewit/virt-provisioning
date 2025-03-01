@@ -41,7 +41,12 @@ if [ -n "$ip" ]; then
 		--source agent \
 		--domain "$name" \
 		--interface enp1s0 \
-	| awk '/ipv4/ { split($4,a,"/"); print a[1] }'
+	| awk '
+		/ipv4/ {
+			split($4,a,"/")
+			print a[1]
+		}
+	'
 
 	exit 0
 fi
