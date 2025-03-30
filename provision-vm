@@ -58,7 +58,7 @@ if [ -n "$ip" ]; then
 fi
 
 if [ "$os" == "debian" ]; then
-	iso=debian-12.9.0-amd64-netinst.iso
+	iso=debian-12.10.0-amd64-netinst.iso
 	os_var=debian12
 	cfg=preseed.cfg
 	cfg_arg=auto=true
